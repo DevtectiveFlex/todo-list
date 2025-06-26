@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import type { Task } from '../../types/tasks.ts';
+import { useTaskStore } from '../../stores/task-storage.ts'
 
-type Task = {
-  id?: string;
-  title: string;
-  completed?: boolean;
-  date?: string
-}
-
-
+const taskStore = useTaskStore();
 const props = withDefaults(defineProps<Task>(), {
   id: crypto.randomUUID(),
   completed: false,
@@ -16,6 +11,12 @@ const props = withDefaults(defineProps<Task>(), {
 });
 const isCompleted = ref(props.completed ?? false);
 
+watch(isCompleted, (newStatus: boolean) => {
+  const currentTask = taskStore.tasks.find((task) => task.id === props.id);
+  if (currentTask) {
+    currentTask.completed = newStatus;
+  }
+})
 </script>
 
 <template>
