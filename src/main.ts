@@ -3,6 +3,8 @@ import './styles/style.sass'
 import './styles/search-form.sass'
 import './styles/task-item.sass'
 import './styles/task-board.sass'
+import './styles/base-popup.sass'
+import './styles/task-header.sass'
 import App from './App.vue'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
