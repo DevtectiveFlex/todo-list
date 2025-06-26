@@ -19,7 +19,7 @@ function handleSubmit() {
 
 <template>
   <Teleport to="body">
-    <div class="popup" v-if="visible">
+    <form class="popup" v-if="visible" @submit.prevent="handleSubmit">
       <div class="popup__wrapper">
         <div class="popup__content">
           <h3 class="popup__title">
@@ -32,9 +32,9 @@ function handleSubmit() {
             <input class="popup__input" type="text" placeholder="Введите описание" v-model="inputValue">
           </label>
           
-          <button class="button popup__create-button" type="button" @click="handleSubmit">Создать</button>
+          <button class="button popup__create-button" type="submit">Создать</button>
         </div>
       </div>
-    </div>
+    </form>
   </Teleport>
 </template>

@@ -1,8 +1,10 @@
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useToast } from "vue-toastification";
 import type { sortValue } from '../../types/sort-types';
+import { useTaskStore } from '../../stores/task-storage.ts'
+
 const SEARCH_PLACEHOLDER = 'Поиск Имени, статуса или даты';
 const  SORT_OPTIONS: sortValue[] = [
   {
@@ -15,9 +17,23 @@ const  SORT_OPTIONS: sortValue[] = [
   },
 ];
 
-const sortBy = ref(SORT_OPTIONS[0].value);
-const search = ref('');
+const taskStore = useTaskStore();
 
+const sortBy = ref('');
+watch(sortBy, (value) => {
+  if (value === 'date') {
+    taskStore.sortTasksByDate()
+  } else {
+    taskStore.sortTasksByStatus()
+  }
+});
+
+const search = ref('');
+watch(search, (value) => {
+  if (!value.trim()) {
+    taskStore.resetSearch();
+  }
+});
 const toast = useToast()
 
 function onSearchClick(event: Event): void {
@@ -28,6 +44,8 @@ function onSearchClick(event: Event): void {
     toast.warning('Поле поиска пустое');
     return;
   }
+  taskStore.searchTasks(searchQuery);
+
 }
 </script>
 
