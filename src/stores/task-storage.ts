@@ -49,8 +49,8 @@ export const useTaskStore = defineStore(
         const titleMatch = task.title.toLowerCase().trim().includes(trimmedQuery);
         const dateMatch = task.date?.includes(trimmedQuery);
         const statusMatch = 
-          task.completed && trimmedQuery === 'в работе' 
-          ||  task.completed && trimmedQuery === 'выполнено';
+          (task.completed && trimmedQuery === 'выполнено')
+          ||  (!task.completed && trimmedQuery === 'в работе');
         return titleMatch || dateMatch || statusMatch;
       })
     }
