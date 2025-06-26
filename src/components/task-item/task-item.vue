@@ -1,0 +1,38 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+
+type Task = {
+  id?: string;
+  title: string;
+  completed?: boolean;
+  date?: string
+}
+
+
+const props = withDefaults(defineProps<Task>(), {
+  id: crypto.randomUUID(),
+  completed: false,
+  date: new Intl.DateTimeFormat('ru-RU').format(Date.now()),
+});
+const isCompleted = ref(props.completed ?? false);
+
+</script>
+
+<template>
+  <li class="task" :id="`task-${props.id}`">
+    <label 
+      class="task__checkbox-label" 
+      :class="{'task__checkbox-label_checked' : isCompleted}"
+    >
+      <input class="task__checkbox" type="checkbox" v-model="isCompleted" >
+    </label>
+    <span class="task__title">{{ title }} </span>
+    <span 
+      class="task__status task__status_pending"
+      :class="{task__status_completed : isCompleted}"
+    >
+      {{ isCompleted ? 'Выполнено' : 'В работе' }} 
+    </span>
+    <span class="task__date"> {{ date }} </span>
+  </li>
+</template>

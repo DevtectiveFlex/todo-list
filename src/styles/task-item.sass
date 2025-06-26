@@ -1,0 +1,50 @@
+.task
+  display: grid
+  grid-template-columns: 80px 1fr 150px 130px
+  align-items: center
+  height: 58px
+  gap: 10px
+
+  &__checkbox 
+    position: absolute
+    opacity: 0
+    width: 0
+    height: 0
+
+  &__checkbox-label
+    margin: 0 40px
+    width: 20px
+    height: 20px
+    border-radius: 50%
+    border: 1px solid var(--status-checkbox-completed)
+    cursor: pointer
+    &:hover
+      opacity: 0.6
+
+  &__checkbox-label_checked
+    position: relative
+    border-color: var(--status-completed)
+    &::after
+      content: ''
+      position: absolute
+      color: var(--status-completed)
+      top: 2.5px
+      left: 7px
+      width: 5px
+      height: 10px
+      border: solid var(--status-completed)
+      border-width: 0 2px 2px 0
+      transform: rotate(45deg)
+
+  &__title 
+    height: 18px
+    padding: 5px
+    flex: 1
+
+  &__status 
+    min-width: 150px
+    color: var(--status-pending)
+    &_completed 
+      color: var(--status-completed)
+
+  &__date 
