@@ -1,0 +1,23 @@
+.taskboard__columns
+  display: grid
+  grid-template-columns: 80px 1fr 150px 130px
+  align-items: center
+  margin-bottom: 14px
+  height: 58px
+
+.taskboard__column
+  display: flex
+  align-items: center
+  padding-left: 20px
+  height: 32px
+  border-left: 1px solid var(--default-border-color)
+  &:nth-child(1)
+    border-left: none
+
+.taskboard__column_title
+  flex: 1
+
+.task-list
+  margin: 0
+  padding: 0
+  list-style: none
