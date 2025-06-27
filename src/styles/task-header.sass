@@ -2,7 +2,11 @@
   display: flex
   justify-content: space-between
   align-content: center
+  margin-bottom: 28px
+  
   &__title
+    align-self: center
+    padding-left: 40px
     font-size: var(--font-h2-size)
 
   &__button
@@ -10,21 +14,17 @@
     width: 40px
     height: 40px
     border-radius: 50%
+    outline: none
     background-color: var(--accent-color)
-    
     &:hover
       opacity: 0.8
-
     &::after, &::before
+      content: ''
       position: absolute
       top: 25%
       left: 50%
-      content: ''
       width: 2px
       height: 20px
       background-color: var(--accent-blue-dark)
-    
     &::after
       transform: rotate(90deg)
-      
-

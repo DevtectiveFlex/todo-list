@@ -3,20 +3,24 @@
   grid-template-columns: 80px 1fr 150px 130px
   align-items: center
   height: 58px
-  gap: 10px
+  border-bottom: 1px solid var(--default-border-color)
+  &:hover
+    border-bottom: 1px solid #000000
+    background-color: var(--secondary-accent-color)
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25)
 
-  &__checkbox 
+  &__checkbox
     position: absolute
-    opacity: 0
     width: 0
     height: 0
+    opacity: 0
 
   &__checkbox-label
     margin: 0 40px
     width: 20px
     height: 20px
-    border-radius: 50%
     border: 1px solid var(--status-checkbox-completed)
+    border-radius: 50%
     cursor: pointer
     &:hover
       opacity: 0.6
@@ -36,15 +40,19 @@
       border-width: 0 2px 2px 0
       transform: rotate(45deg)
 
-  &__title 
+  &__title
     height: 18px
     padding: 5px
+    padding-left: 20px
     flex: 1
 
-  &__status 
+  &__status
     min-width: 150px
+    padding-left: 20px
     color: var(--status-pending)
-    &_completed 
+
+    &_completed
       color: var(--status-completed)
 
-  &__date 
+  &__date
+    padding-left: 20px
