@@ -44,13 +44,17 @@ watch(search, (value) => {
   }
 });
 const toast = useToast();
-
+const toastMessage = ref('');
 function onSearchClick(): void {
   const searchQuery = search.value.trim();
   if (!searchQuery) {
     toast.clear();
-    toast.warning('Поле поиска пустое');
+    toastMessage.value = 'Поле поиска пустое';
+    toast.warning(toastMessage.value);
     search.value = '';
+    setTimeout(() => {
+      toastMessage.value = '';
+    }, 3000);
     return;
   }
   taskStore.searchTasks(searchQuery);
@@ -93,6 +97,6 @@ function onSearchClick(): void {
     </label>
   </form>
   <div id="access-toast" class="visually-hidden" aria-live="assertive">
-    Поле поиска пустое
+    {{ toastMessage }}
   </div>
 </template>
