@@ -1,38 +1,50 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useTaskStore } from '../../stores/task-storage.ts'
+import { ref } from 'vue';
+import { useTaskStore } from '../../stores/task-storage.ts';
 import BasePopup from '../base-popup/base-popup.vue';
+import { dateGenerator } from '../../utils/date-generator.ts';
 
-const isPopupShowed = ref(false)
+const taskStore = useTaskStore();
 
-function openPopup () {
-  isPopupShowed.value = true;
+const isPopupVisible = ref(false);
+
+function openPopup() {
+  isPopupVisible.value = true;
+  document.body.style.overflow = 'hidden';
 }
 
 function closePopup() {
-  isPopupShowed.value = false
+  isPopupVisible.value = false;
+  document.body.style.overflow = '';
 }
-const taskStore = useTaskStore();
-function onAddTaskClick(title: string) {
+
+function onAddTaskClick(title: string): void {
   if (title && typeof title === 'string') {
-  taskStore.addTask({
-    id: crypto.randomUUID(),
-    title,
-    completed: false,
-    date: new Intl.DateTimeFormat('ru-RU').format(Date.now()),
-
-  })
-  closePopup();
-  return;
+    taskStore.addTask({
+      id: crypto.randomUUID(),
+      title,
+      completed: false,
+      date: dateGenerator(true),
+    });
+    closePopup();
+    return;
   }
-
 }
 </script>
 
 <template>
   <header class="page-header">
-    <h2 class="page-header__title">To Do list</h2>
-    <button type="button" class="button page-header__button" @click="openPopup"></button>
+    <h2 class="page-header__title">To do list</h2>
+    <button
+      type="button"
+      class="button page-header__button"
+      aria-label="Добавить новую задачу"
+      @click="openPopup"
+    ></button>
   </header>
-  <BasePopup :visible="isPopupShowed" :onClose="closePopup" :onSubmit="onAddTaskClick"/>
+  <BasePopup
+    :visible="isPopupVisible"
+    :onClose="closePopup"
+    :onSubmit="onAddTaskClick"
+  />
 </template>

@@ -5,8 +5,7 @@ import TaskHeader from './components/task-header/task-header.vue';
 </script>
 
 <template>
-    <TaskHeader/>
-    <SearchForm/>
-    <TaskBoard/>
+  <TaskHeader />
+  <SearchForm />
+  <TaskBoard />
 </template>
-
