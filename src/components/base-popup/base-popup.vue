@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 const props = defineProps<{
   visible: boolean;
   onClose: () => void;
@@ -10,16 +13,23 @@ const inputValue = ref('');
 
 function handleSubmit() {
   if (!inputValue.value.trim()) {
+    toast.clear();
+    toast.warning('Поле описания пустое')
     return;
   }
   props.onSubmit(inputValue.value.trim());
   inputValue.value = '';
 }
+
+function handleClose() {
+  inputValue.value = '';
+  props.onClose();
+}
 </script>
 
 <template>
   <Teleport to="body">
-    <form class="popup" v-if="visible" @submit.prevent="handleSubmit">
+    <form class="popup" v-if="props.visible" @submit.prevent="handleSubmit">
       <div class="popup__wrapper">
         <div class="popup__content">
           <h3 class="popup__title">
@@ -27,7 +37,7 @@ function handleSubmit() {
             <button
               class="button popup__close-button"
               type="button"
-              @click="onClose"
+              @click="handleClose"
             >
               ✕
             </button>
