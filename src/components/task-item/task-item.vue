@@ -4,11 +4,7 @@ import type { Task } from '../../types/tasks.ts';
 import { useTaskStore } from '../../stores/task-storage.ts';
 
 const taskStore = useTaskStore();
-const props = withDefaults(defineProps<Task>(), {
-  id: crypto.randomUUID(),
-  completed: false,
-  date: new Intl.DateTimeFormat('ru-RU').format(Date.now()),
-});
+const props = defineProps<Task>();
 const isCompleted = ref(props.completed ?? false);
 
 watch(isCompleted, (newStatus: boolean) => {
@@ -20,7 +16,7 @@ watch(isCompleted, (newStatus: boolean) => {
 </script>
 
 <template>
-  <li class="task" :id="`task-${props.id}`">
+  <li class="task" :id=" `task-${props.id}` ">
     <label
       class="task__checkbox-label"
       :class="{ 'task__checkbox-label_checked': isCompleted }"
