@@ -2,24 +2,29 @@
 import { ref } from 'vue';
 import { useTaskStore } from '../../stores/task-storage.ts';
 import BasePopup from '../base-popup/base-popup.vue';
+import { dateGenerator } from '../../utils/date-generator.ts';
 
-const isPopupShowed = ref(false);
+const taskStore = useTaskStore();
+
+const isPopupVisible = ref(false);
 
 function openPopup() {
-  isPopupShowed.value = true;
+  isPopupVisible.value = true;
+  document.body.style.overflow = 'hidden';
 }
 
 function closePopup() {
-  isPopupShowed.value = false;
+  isPopupVisible.value = false;
+  document.body.style.overflow = '';
 }
-const taskStore = useTaskStore();
-function onAddTaskClick(title: string) {
+
+function onAddTaskClick(title: string): void {
   if (title && typeof title === 'string') {
     taskStore.addTask({
       id: crypto.randomUUID(),
       title,
       completed: false,
-      date: new Intl.DateTimeFormat('ru-RU').format(Date.now()),
+      date: dateGenerator(true),
     });
     closePopup();
     return;
@@ -33,11 +38,12 @@ function onAddTaskClick(title: string) {
     <button
       type="button"
       class="button page-header__button"
+      aria-label="Добавить новую задачу"
       @click="openPopup"
     ></button>
   </header>
   <BasePopup
-    :visible="isPopupShowed"
+    :visible="isPopupVisible"
     :onClose="closePopup"
     :onSubmit="onAddTaskClick"
   />
