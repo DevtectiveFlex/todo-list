@@ -15,7 +15,7 @@ const taskStore = useTaskStore();
     </div>
     <ul class="task-list">
       <TaskItem
-        v-for="task in taskStore.filtredTasks ?? taskStore.tasks"
+        v-for="task in taskStore.visibleTasks"
         :key="task.id"
         :id="task.id"
         :title="task.title"

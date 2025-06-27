@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { defineStore } from 'pinia';
 import type { Task } from '../types/tasks.ts';
 import { parseDate } from '../utils/data-parser.ts';
@@ -9,7 +9,7 @@ const TASK_STORAGE = 'tasks';
 export const useTaskStore = defineStore(TASK_STORAGE, () => {
   const tasks = ref<Task[]>([]);
   const filtredTasks = ref<Task[] | null>(null);
-
+  const visibleTasks = computed(() => filtredTasks.value ?? tasks.value);
   watch(
     tasks,
     (updatedTasks: Task[]) => {
@@ -63,7 +63,7 @@ export const useTaskStore = defineStore(TASK_STORAGE, () => {
 
   return {
     tasks,
-    filtredTasks,
+    visibleTasks,
     addTask,
     sortTasksByDate,
     sortTasksByStatus,
