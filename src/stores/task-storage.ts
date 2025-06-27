@@ -31,7 +31,7 @@ export const useTaskStore = defineStore(TASK_STORAGE, () => {
   }
 
   function sortTasksByDate() {
-    tasks.value = tasks.value.sort((a, b) => {
+    tasks.value = [...tasks.value].sort((a, b) => {
       if (a.date && b.date) {
         return parseDate(a.date) - parseDate(b.date);
       }
