@@ -8,8 +8,8 @@ const TASK_STORAGE = 'tasks';
 
 export const useTaskStore = defineStore(TASK_STORAGE, () => {
   const tasks = ref<Task[]>([]);
-  const filtredTasks = ref<Task[] | null>(null);
-  const visibleTasks = computed(() => filtredTasks.value ?? tasks.value);
+  const filteredTasks = ref<Task[] | null>(null);
+  const visibleTasks = computed(() => filteredTasks.value ?? tasks.value);
   watch(
     tasks,
     (updatedTasks: Task[]) => {
@@ -47,7 +47,7 @@ export const useTaskStore = defineStore(TASK_STORAGE, () => {
 
   function searchTasks(query: string): void {
     const trimmedQuery = query.toLowerCase().trim();
-    filtredTasks.value = tasks.value.filter((task) => {
+    filteredTasks.value = tasks.value.filter((task) => {
       const titleMatch = task.title.toLowerCase().trim().includes(trimmedQuery);
       const dateMatch = task.date?.includes(trimmedQuery);
       const statusMatch =
@@ -58,7 +58,7 @@ export const useTaskStore = defineStore(TASK_STORAGE, () => {
   }
 
   function resetSearch() {
-    filtredTasks.value = null;
+    filteredTasks.value = null;
   }
 
   return {
