@@ -18,14 +18,24 @@ const SORT_OPTIONS: sortValue[] = [
 
 const taskStore = useTaskStore();
 
-const sortBy = ref('');
-watch(sortBy, (value) => {
-  if (value === 'date') {
-    taskStore.sortTasksByDate();
-  } else {
-    taskStore.sortTasksByStatus();
+function startSort(sortMethod?: string | null) {
+  const currentMethod = sortMethod ?? sortBy.value;
+
+  if (!currentMethod) return;
+
+  switch (sortMethod) {
+    case 'date':
+      taskStore.sortTasksByDate();
+      break;
+    case 'status':
+      taskStore.sortTasksByStatus();
+      break;
+    default:
+      toast.error('Не удалось установить метод сортировки');
   }
-});
+}
+const sortBy = ref<string | null>(null);
+watch(sortBy, startSort);
 
 const search = ref('');
 watch(search, (value) => {
@@ -35,26 +45,22 @@ watch(search, (value) => {
 });
 const toast = useToast();
 
-function onSearchClick(event: Event): void {
-  event.preventDefault();
-  const searchQuery = search.value;
+function onSearchClick(): void {
+  const searchQuery = search.value.trim();
   if (!searchQuery) {
     toast.clear();
     toast.warning('Поле поиска пустое');
+    search.value = '';
     return;
   }
   taskStore.searchTasks(searchQuery);
+  startSort();
 }
 </script>
 
 <template>
-  <form class="search-form">
-    <button
-      type="submit"
-      class="search-form__button"
-      @click="onSearchClick"
-      aria-label="Начать поиск"
-    >
+  <form class="search-form" @submit.prevent="onSearchClick">
+    <button type="submit" class="search-form__button" aria-label="Начать поиск">
       <img src="../../assets/search-icon.svg" width="18" height="18" />
     </button>
     <input
@@ -67,7 +73,7 @@ function onSearchClick(event: Event): void {
     <button
       type="button"
       class="button"
-      v-if="search"
+      v-if="search.trim()"
       @click="search = ''"
       aria-label="Очистить поле поиска"
     >
